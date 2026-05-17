@@ -4,7 +4,7 @@ import numpy as np
 from datetime import datetime, timedelta
 from pathlib import Path
 
-#need to import wrds, option metrics, bloomber ect.
+#need to import wrds, option metrics, bloomber ect later on, 
 
 
 DATA_DIR = Path("data")
@@ -21,6 +21,7 @@ def get_spy_intraday(interval: str = "1m", period: str = "5d") -> pd.DataFrame:
                      progress=False, auto_adjust=True)
     df.index.name = "datetime"
     df.to_parquet(DATA_DIR / "spy_intraday.parquet")
+    df.to_csv(DATA_DIR / "spy_intraday.csv")
     print(f"    → {len(df)} rows  |  {df.index[0]} → {df.index[-1]}")
     return df
  
@@ -36,6 +37,7 @@ def get_spy_daily(years: int = 3) -> pd.DataFrame:
     df.index.name = "date"
     df["returns"] = np.log(df["Close"] / df["Close"].shift(1))
     df.to_parquet(DATA_DIR / "spy_daily.parquet")
+    df.to_csv(DATA_DIR / "spy_daily.csv")
     print(f"    → {len(df)} trading days")
     return df
  
@@ -86,7 +88,8 @@ def get_options_chain(
     # Save each expiry as its own parquet
     for expiry, df in chains.items():
         df.to_parquet(DATA_DIR / f"options_{expiry}.parquet")
- 
+        df.to_csv(DATA_DIR / f"options_{expiry}.csv")
+
     print(f"    → {len(chains)} expiries fetched")
     return chains
  
@@ -120,6 +123,7 @@ def get_vix(years: int = 3) -> pd.DataFrame:
     df.columns = ["vix_close"]
     df.index.name = "date"
     df.to_parquet(DATA_DIR / "vix_daily.parquet")
+    df.to_csv(DATA_DIR / "vix_daily.csv")
     print(f"    → {len(df)} rows")
     return df
  
@@ -137,6 +141,7 @@ def get_risk_free_rate(years: int = 3) -> pd.DataFrame:
     df["rate_decimal"] = df["rate_pct"] / 100
     df.index.name  = "date"
     df.to_parquet(DATA_DIR / "risk_free_rate.parquet")
+    df.to_csv(DATA_DIR / "risk_free_rate.csv")
     print(f"    → {len(df)} rows  |  latest: {df['rate_pct'].iloc[-1]:.2f}%")
     return df
  
@@ -152,6 +157,7 @@ def get_dividends() -> pd.DataFrame:
     df.index = pd.to_datetime(df.index).tz_localize(None)
     df.index.name = "date"
     df.to_parquet(DATA_DIR / "spy_dividends.parquet")
+    df.to_csv(DATA_DIR / "spy_dividends.csv")
     print(f"    → {len(df)} dividend records")
     return df
  
@@ -177,6 +183,7 @@ def load_all() -> dict:
             print(f"  Warning: {fname} not found — run fetch_all() first")
 
     options_files = sorted(DATA_DIR.glob("options_*.parquet"))
+
     data["options"] = {
         f.stem.replace("options_", ""): pd.read_parquet(f)
         for f in options_files
