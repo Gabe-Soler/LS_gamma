@@ -1,11 +1,12 @@
-# Long/Short Gamma — Strategy 1
+# QUANTT 2026 - Long/Short Gamma desk
 **Regime-dependent gamma scalping on SPY options**
 
----
+
+[View Architecture](https://miro.com/app/board/uXjVHSQDo3w=/?share_link_id=797835084657)
 
 ## Overview
 
-A systematic options strategy that exploits the **Volatility Risk Premium (VRP)** — the persistent tendency for implied volatility to exceed realized volatility (~70-80% of the time). The strategy switches between two regimes based on a volatility forecast engine:
+A systematic options strategy that exploits the **Volatility Risk Premium (VRP)**, the tendency for implied volatility to exceed realized volatility (~70-80% of the time). The strategy switches between two regimes based on RV forecasts.
 
 | Regime | Condition | Position | Edge |
 |--------|-----------|----------|------|
@@ -18,7 +19,7 @@ Delta is re-hedged hourly. Volatility forecasts run daily to determine regime.
 
 ## Strategy Logic
 
-1. **Forecast realized volatility** using models developed in-house
+1. **Forecast realized volatility** using models developed in-house (alongside public models: HAR, GARCH, etc.)
 2. **Compare to implied volatility** (derived via reverse Black-Scholes)
 3. **Enter position** based on VRP signal:
    - Short gamma → sell OTM strangle (~5% OTM), collect premium upfront
@@ -78,3 +79,7 @@ pip install -r requirements.txt
 ---
 
 *QUANTT — Queen's University Algorithmic Network and Trading Team*
+------
+*PM: Gabe Soler*
+
+*Members: TBD*
