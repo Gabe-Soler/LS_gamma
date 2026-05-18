@@ -60,21 +60,12 @@ Benchmarks: CBOE VIX short-term futures index, SPY buy-and-hold
 ## Setup
 
 ```bash
-git clone https://github.com/Gabe-Soler/FIAM_Hackathon_2026.git
-cd FIAM_Hackathon_2026
+git clone https://github.com/Gabe-Soler/LS_gamma.git
+cd LS_gamma
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
-
----
-
-## Roadmap
-
-- [x] Stage 1 — Research & P&L driver analysis
-- [ ] Stage 2 — Core infrastructure (vol forecast engine, regime classifier, dashboard)
-- [ ] Stage 3 — Paper trading via Alpaca API, threshold testing
-- [ ] Stage 4 — Documentation, new model research, school-year prep
 
 ---
 
